@@ -1,7 +1,6 @@
 package com.dodge.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,11 +11,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class PausaScreen implements Screen {
 
-    private final GameLluviaMenu game;
-    private GameScreen juego;
-    private SpriteBatch batch;
-    private BitmapFont font;
-    private OrthographicCamera camera;
+    private final GameWaterMenu game;
+    final private GameScreen juego;
+    final private SpriteBatch batch;
+    final private BitmapFont font;
+    final private OrthographicCamera camera;
 
     private final Texture backgroundImage;
     private final Texture resumeButton;
@@ -27,7 +26,7 @@ public class PausaScreen implements Screen {
     private boolean resumeHover;
     private boolean exitHover;
 
-    public PausaScreen (final GameLluviaMenu game, GameScreen juego) {
+    public PausaScreen (final GameWaterMenu game, GameScreen juego) {
         this.game = game;
         this.juego = juego;
         this.batch = game.getBatch();

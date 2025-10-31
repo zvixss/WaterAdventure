@@ -20,10 +20,10 @@ public class Obstaculos {
     final private Sound coinSound;
     final private Music instrumentalMusic;
 
-    public Obstaculos(Texture gotaBuena, Texture boya, Texture glaciar, Texture medusa, Sound ss, Music mm) {
+    public Obstaculos(Texture recolectable, Texture boya, Texture glaciar, Texture medusa, Sound ss, Music mm) {
         instrumentalMusic = mm;
         coinSound = ss;
-        this.recolectable = gotaBuena;
+        this.recolectable = recolectable;
         obstaculosTextures = new Array<>();
         obstaculosTextures.add(boya);
         obstaculosTextures.add(glaciar);
@@ -35,16 +35,16 @@ public class Obstaculos {
         obstaculosPos = new Array<>();
         obstaculosType = new Array<>();
         obstaculosActuales = new Array<>();
-        crearGotaDeLluvia();
+        crearObstaculo();
 
         instrumentalMusic.setLooping(true);
         instrumentalMusic.play();
     }
 
-    private void crearGotaDeLluvia() {
-        Rectangle raindrop = new Rectangle();
-        raindrop.x = MathUtils.random(0, 800 - 64);
-        raindrop.y = 480;
+    private void crearObstaculo() {
+        Rectangle hitbox = new Rectangle();
+        hitbox.x = MathUtils.random(0, 800 - 64);
+        hitbox.y = 480;
 
         // Decide el tipo de obstáculo (1 = dañino, 2 = recolectable)
         int tipo = MathUtils.random(1, 10) < 5 ? 1 : 2;
@@ -55,48 +55,43 @@ public class Obstaculos {
             obstaculosActuales.add(obstaculo);
 
             // Define el tamaño de hitbox para cada obstáculo
-            if (obstaculo == obstaculosTextures.get(0)) { // roca
-                float scale = 0.1f;
-                raindrop.width = obstaculo.getWidth() * scale;
-                raindrop.height = obstaculo.getHeight() * scale;
-				/*
-				raindrop.width = 60;
-				raindrop.height = 40;
+            if (obstaculo == obstaculosTextures.get(0)) {
+                hitbox.width = obstaculo.getWidth() * 0.1f;
+                hitbox.height = obstaculo.getHeight() * 0.1f;
 
-				 */
-            } else if (obstaculo == obstaculosTextures.get(1)) { // árbol
-                raindrop.width = 20;
-                raindrop.height = 28;
-            } else if (obstaculo == obstaculosTextures.get(2)) { // hoyo
-                raindrop.width = 60;
-                raindrop.height = 1;
+            } else if (obstaculo == obstaculosTextures.get(1)) {
+                hitbox.width = 20;
+                hitbox.height = 28;
+            } else if (obstaculo == obstaculosTextures.get(2)) {
+                hitbox.width = 60;
+                hitbox.height = 1;
             }
         } else {
             // Dimensiones estándar para objetos recolectables
             obstaculosActuales.add(recolectable);
-            raindrop.width = 32;
-            raindrop.height = 32;
+            hitbox.width = 32;
+            hitbox.height = 32;
         }
 
-        obstaculosPos.add(raindrop);
+        obstaculosPos.add(hitbox);
         lastSpawnTime = TimeUtils.nanoTime();
     }
 
     public boolean actualizarMovimiento(Lancha tarro) {
-        if (TimeUtils.nanoTime() - lastSpawnTime > 100000000) crearGotaDeLluvia();
+        if (TimeUtils.nanoTime() - lastSpawnTime > 100000000) crearObstaculo();
 
         for (int i = 0; i < obstaculosPos.size; i++) {
-            Rectangle raindrop = obstaculosPos.get(i);
-            raindrop.y -= 300 * Gdx.graphics.getDeltaTime();
+            Rectangle hitboxPos = obstaculosPos.get(i);
+            hitboxPos.y -= 300 * Gdx.graphics.getDeltaTime();
 
             // Remueve gota fuera de pantalla
-            if (raindrop.y + 64 < 0) {
+            if (hitboxPos.y + 64 < 0) {
                 obstaculosPos.removeIndex(i);
                 obstaculosType.removeIndex(i);
                 obstaculosActuales.removeIndex(i);
             }
             // Verifica colisión
-            if (raindrop.overlaps(tarro.getArea())) {
+            if (hitboxPos.overlaps(tarro.getArea())) {
                 if (obstaculosType.get(i) == 1) { // Daño
                     tarro.dañar();
                     if (tarro.getVidas() <= 0)
@@ -113,7 +108,7 @@ public class Obstaculos {
         return true;
     }
 
-    public void actualizarDibujoLluvia(SpriteBatch batch) {
+    public void actualizarDibujoObjeto(SpriteBatch batch) {
         for (int i = 0; i < obstaculosPos.size; i++) {
             Rectangle raindrop = obstaculosPos.get(i);
             Texture obstaculo = obstaculosActuales.get(i);

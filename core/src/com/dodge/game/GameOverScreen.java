@@ -9,10 +9,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameOverScreen implements Screen {
-    private final GameLluviaMenu game;
-    private SpriteBatch batch;
-    private BitmapFont font;
-    private OrthographicCamera camera;
+    private final GameWaterMenu game;
+    final private SpriteBatch batch;
+    final private BitmapFont font;
+    final private OrthographicCamera camera;
 
     private final Texture backgroundImage;
     private final Texture gameOverImage;
@@ -24,12 +24,9 @@ public class GameOverScreen implements Screen {
     private boolean retryHover;
     private boolean exitHover;
 
-    private float opacity = 0;
-    private boolean fadingIn = true;
+    final private int score;
 
-    private int score;
-
-    public GameOverScreen(final GameLluviaMenu game, int score) {
+    public GameOverScreen(final GameWaterMenu game, int score) {
         this.game = game;
         this.batch = game.getBatch();
         this.font = game.getFont();

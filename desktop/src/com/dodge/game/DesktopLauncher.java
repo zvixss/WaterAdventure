@@ -2,7 +2,7 @@ package com.dodge.game;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.dodge.game.GameLluviaMenu;
+import com.dodge.game.GameWaterMenu;
 
 /** Launches the desktop (LWJGL3) application. */
 public class DesktopLauncher {
@@ -12,7 +12,7 @@ public class DesktopLauncher {
 	}
 
 	private static Lwjgl3Application createApplication() {
-		return new Lwjgl3Application(new GameLluviaMenu(), getDefaultConfiguration());
+		return new Lwjgl3Application(new GameWaterMenu(), getDefaultConfiguration());
 	}
 
 	private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {

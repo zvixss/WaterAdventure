@@ -61,9 +61,9 @@ public class Lancha {
 		if (!herido)
 		   batch.draw(boatImage, hitbox.x, hitbox.y);
 		else {
-			batch.draw(boatImage, hitbox.x, hitbox.y+ MathUtils.random(-5,5));
+			batch.draw(boatImage, hitbox.x, hitbox.y+ MathUtils.random(-8,8));
 		    tiempoHerido--;
-		    if (tiempoHerido<=0) herido = false;
+		    if (tiempoHerido <= 0) herido = false;
 		}
 	}
 

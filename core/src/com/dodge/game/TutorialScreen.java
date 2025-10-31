@@ -10,10 +10,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class TutorialScreen implements Screen {
-    final GameLluviaMenu game;
-    private SpriteBatch batch;
-    private BitmapFont font;
-    private OrthographicCamera camera;
+    final GameWaterMenu game;
+    final private SpriteBatch batch;
+    final private BitmapFont font;
+    final private OrthographicCamera camera;
 
     private final Texture backgroundImage;
     private final Texture arrowKeysIcon;
@@ -24,7 +24,7 @@ public class TutorialScreen implements Screen {
     private float opacity = 0;
     private boolean fadingIn = true;
 
-    public TutorialScreen(final GameLluviaMenu game){
+    public TutorialScreen(final GameWaterMenu game){
         this.game = game;
         this.batch = game.getBatch();
         this.font = game.getFont();
@@ -82,7 +82,7 @@ public class TutorialScreen implements Screen {
 
         batch.end();
 
-        if (progress >= 1 || Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+        if (progress >= 1 || Gdx.input.isTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             game.setScreen(new MainMenuScreen(game));
             dispose();
         }

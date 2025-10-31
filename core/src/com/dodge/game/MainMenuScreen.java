@@ -1,7 +1,6 @@
 package com.dodge.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,10 +11,10 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MainMenuScreen implements Screen {
 
-    final GameLluviaMenu game;
-    private SpriteBatch batch;
-    private BitmapFont font;
-    private OrthographicCamera camera;
+    final GameWaterMenu game;
+    final private SpriteBatch batch;
+    final private BitmapFont font;
+    final private OrthographicCamera camera;
 
     private final Texture backgroundImage;
     private final Texture logo;
@@ -27,7 +26,7 @@ public class MainMenuScreen implements Screen {
     private boolean playHover;
     private boolean exitHover;
 
-    public MainMenuScreen(final GameLluviaMenu game) {
+    public MainMenuScreen(final GameWaterMenu game) {
         this.game = game;
         this.batch = game.getBatch();
         this.font = game.getFont();
