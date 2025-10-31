@@ -48,7 +48,6 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(0.5f, 0.5f, 0.5f, 1);
 
-        //camera.update();
         batch.setProjectionMatrix(camera.combined);
 
         int mouseX = Gdx.input.getX();
@@ -58,11 +57,9 @@ public class MainMenuScreen implements Screen {
         exitHover = mouseX >= 552 && mouseX <= 700 && mouseY >= 150 && mouseY <= 298;
 
         batch.begin();
-        // Fondo y logo
         batch.draw(backgroundImage, 0, 0, 800, 480);
         batch.draw(logo, 300, 250, 200, 200);
 
-        // Boton de "Play" con efecto hover
         batch.draw(playHover ? playButtonHover : playButton, 100, 150, 148, 148);
         batch.draw(exitHover ? exitButtonHover : exitButton, 552, 150, 148, 148);
 

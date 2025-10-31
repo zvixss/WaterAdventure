@@ -69,10 +69,12 @@ public class TutorialScreen implements Screen {
         font.setColor(1, 1, 1, 1); // Blanco
         font.draw(batch,"Objetivo: Conduce la lancha y esquiva todos los obstáculos", 120, 400);
         font.draw(batch, "para ganar puntos y evitar chocar.", 120, 370);
+        font.draw(batch, "Conchas = 10 pts.", 120, 340);
+        font.draw(batch, "Botellas = 50 pts.", 120, 310);
 
         // Controles
         batch.draw(arrowKeysIcon, 50, 300, 64, 64);
-        font.draw(batch, "Usa las flechas para mover la lancha a todas las direcciones!", 120, 330);
+        font.draw(batch, "Usa las flechas para mover la lancha a todas las direcciones!", 120, 280);
 
         font.setColor(1, 1, 1, opacity);
         font.draw(batch, "Cargando...", 100, 250);

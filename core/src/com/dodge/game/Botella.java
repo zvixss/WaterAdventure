@@ -3,9 +3,9 @@ package com.dodge.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Concha extends Entidad implements IRecolectable {
+public class Botella extends Entidad implements IRecolectable {
 
-    public Concha(Texture textura, float x, float y) {
+    public Botella(Texture textura, float x, float y) {
         super(textura, x, y, 32, 32, 0.15f);
     }
 
@@ -17,6 +17,6 @@ public class Concha extends Entidad implements IRecolectable {
 
     @Override
     public int getPuntos() {
-        return 10;
+        return 50;
     }
 }
