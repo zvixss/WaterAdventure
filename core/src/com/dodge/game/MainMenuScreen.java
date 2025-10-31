@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -11,73 +12,112 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MainMenuScreen implements Screen {
 
-	final GameLluviaMenu game;
-	private SpriteBatch batch;
-	private BitmapFont font;
-	private OrthographicCamera camera;
+    final GameLluviaMenu game;
+    private SpriteBatch batch;
+    private BitmapFont font;
+    private OrthographicCamera camera;
 
-	public MainMenuScreen(final GameLluviaMenu game) {
-		this.game = game;
+    private final Texture backgroundImage;
+    private final Texture logo;
+    private final Texture playButton;
+    private final Texture playButtonHover;
+    private final Texture exitButton;
+    private final Texture exitButtonHover;
+
+    private boolean playHover;
+    private boolean exitHover;
+
+    public MainMenuScreen(final GameLluviaMenu game) {
+        this.game = game;
         this.batch = game.getBatch();
         this.font = game.getFont();
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 480);
-	}
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 800, 480);
 
-	@Override
-	public void render(float delta) {
-		ScreenUtils.clear(0.411f, 0.411f, 0.411f, 1);
+        this.backgroundImage = new Texture("background.png");
+        this.logo = new Texture("logo.png");
+        this.playButton = new Texture("play_button.png");
+        this.playButtonHover = new Texture("play_button_hover.png");
+        this.exitButton = new Texture("exit_button.png");
+        this.exitButtonHover = new Texture("exit_button_hover.png");
 
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
+        this.playHover = false;
+        this.exitHover = false;
+    }
 
-		batch.begin();
-		font.getData().setScale(2, 2);
-		font.draw(batch, "Bienvenido a Dodge Race! ", 100, camera.viewportHeight/2+50);
-		font.draw(batch, "Apreta cualquier tecla para comenzar!", 100, camera.viewportHeight/2-50);
+    @Override
+    public void render(float delta) {
+        ScreenUtils.clear(0.5f, 0.5f, 0.5f, 1);
 
-		batch.end();
+        //camera.update();
+        batch.setProjectionMatrix(camera.combined);
 
-		if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-			game.setScreen(new GameScreen(game));
-			dispose();
-		}
-	}
+        int mouseX = Gdx.input.getX();
+        int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-	@Override
-	public void show() {
-		// TODO Auto-generated method stub
+        playHover = mouseX >= 100 && mouseX <= 248 && mouseY >= 150 && mouseY <= 298;
+        exitHover = mouseX >= 552 && mouseX <= 700 && mouseY >= 150 && mouseY <= 298;
 
-	}
+        batch.begin();
+        // Fondo y logo
+        batch.draw(backgroundImage, 0, 0, 800, 480);
+        batch.draw(logo, 300, 250, 200, 200);
 
-	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
+        // Boton de "Play" con efecto hover
+        batch.draw(playHover ? playButtonHover : playButton, 100, 150, 148, 148);
+        batch.draw(exitHover ? exitButtonHover : exitButton, 552, 150, 148, 148);
 
-	}
+        batch.end();
 
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
+        if (playHover && Gdx.input.justTouched()){
+            game.setScreen(new GameScreen(game));
+            dispose();
+        }
+        if (exitHover && Gdx.input.justTouched()){
+            Gdx.app.exit();
+        }
 
-	}
+    }
 
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
+    @Override
+    public void show() {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
+    @Override
+    public void resize(int width, int height) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
+    @Override
+    public void pause() {
+        // TODO Auto-generated method stub
 
-	}
+    }
+
+    @Override
+    public void resume() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void hide() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void dispose() {
+        // TODO Auto-generated method stub
+        backgroundImage.dispose();
+        logo.dispose();
+        playButton.dispose();
+        playButtonHover.dispose();
+        exitButton.dispose();
+        exitButtonHover.dispose();
+    }
 
 }

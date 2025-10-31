@@ -11,109 +11,112 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameScreen implements Screen {
-	final GameLluviaMenu game;
+    final GameLluviaMenu game;
     private OrthographicCamera camera;
-	private SpriteBatch batch;
-	private BitmapFont font;
-	private Lancha lancha;
-	private Obstaculos obstaculos;
+    private SpriteBatch batch;
+    private BitmapFont font;
+    private Lancha lancha;
+    private Obstaculos obstaculos;
+    private Texture fondo;
 
 
-	//boolean activo = true;
 
-	public GameScreen(final GameLluviaMenu game) {
-		this.game = game;
+    public GameScreen(final GameLluviaMenu game) {
+        this.game = game;
         this.batch = game.getBatch();
         this.font = game.getFont();
-		  // load the images for the droplet and the bucket, 64x64 pixels each
-		  Sound choqueSound = Gdx.audio.newSound(Gdx.files.internal("choque.mp3"));
-		  lancha = new Lancha(new Texture(Gdx.files.internal("lancha.png")),choqueSound);
 
-	      // load the drop sound effect and the rain background "music"
-         Texture gota = new Texture(Gdx.files.internal("drop.png"));
-         Texture gotaMala = new Texture(Gdx.files.internal("dropBad.png"));
+        // Inicializar sonidos y texturas de los objetos
+        Sound choqueSound = Gdx.audio.newSound(Gdx.files.internal("choque.mp3"));
+        lancha = new Lancha(new Texture(Gdx.files.internal("lancha.png")), choqueSound);
 
-         Sound dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
+        Texture concha = new Texture(Gdx.files.internal("concha.png"));
+        Texture boya = new Texture(Gdx.files.internal("boya.png"));
+        Texture glaciar = new Texture(Gdx.files.internal("glaciar.png"));
+        Texture medusa = new Texture(Gdx.files.internal("medusa.png"));
+        Sound coinSound = Gdx.audio.newSound(Gdx.files.internal("moneda.mp3"));
+        Music instrumentalMusic = Gdx.audio.newMusic(Gdx.files.internal("instrumental.mp3"));
 
-	     Music instrumentalMusic = Gdx.audio.newMusic(Gdx.files.internal("instrumental.mp3"));
-         obstaculos = new Obstaculos(gota, gotaMala, dropSound, instrumentalMusic);
+        obstaculos = new Obstaculos(concha, boya, glaciar, medusa, coinSound, instrumentalMusic);
 
-	      // camera
-	      camera = new OrthographicCamera();
-	      camera.setToOrtho(false, 800, 480);
-	      batch = new SpriteBatch();
-	      // creacion del tarro
-	      lancha.crear();
+        // Cargar la textura del fondo
+        fondo = new Texture(Gdx.files.internal("game_background.png"));
 
-	      // creacion de la lluvia
-	      obstaculos.crear();
-	}
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 800, 480);
+        batch = new SpriteBatch();
 
-	@Override
-	public void render(float delta) {
-		//limpia la pantalla con color azul obscuro.
-		ScreenUtils.clear(0, 0, 0.2f, 1);
-		//actualizar matrices de la cámara
-		camera.update();
-		//actualizar
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		//dibujar textos
-		font.draw(batch, "Gotas totales: " + lancha.getPuntos(), 5, 475);
-		font.draw(batch, "Vidas : " + lancha.getVidas(), 670, 475);
-		font.draw(batch, "HighScore : " + game.getHigherScore(), camera.viewportWidth/2-50, 475);
+        lancha.crear();
+        obstaculos.crear();
+    }
 
-		if (!lancha.estaHerido()) {
-			// movimiento del tarro desde teclado
-	        lancha.actualizarMovimiento();
-			// caida de la lluvia
-	       if (!obstaculos.actualizarMovimiento(lancha)) {
-	    	  //actualizar HigherScore
-	    	  if (game.getHigherScore()<lancha.getPuntos())
-	    		  game.setHigherScore(lancha.getPuntos());
-	    	  //ir a la ventana de finde juego y destruir la actual
-	    	  game.setScreen(new GameOverScreen(game));
-	    	  dispose();
-	       }
-		}
+    @Override
+    public void render(float delta) {
 
-		lancha.dibujar(batch);
-		obstaculos.actualizarDibujoLluvia(batch);
+        ScreenUtils.clear(0, 0, 0.2f, 1);
 
-		batch.end();
-	}
+        camera.update();
 
-	@Override
-	public void resize(int width, int height) {
-	}
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
 
-	@Override
-	public void show() {
-	  // continuar con sonido de lluvia
-	  obstaculos.continuar();
-	}
+        // Dibujar fondo y HUD
+        batch.draw(fondo, 0, 0, 800, 480);
+        font.draw(batch, "Monedas totales: " + lancha.getPuntos(), 5, 475);
+        font.draw(batch, "Vidas : " + lancha.getVidas(), 670, 475);
+        font.draw(batch, "HighScore : " + game.getHigherScore(), camera.viewportWidth / 2 - 50, 475);
 
-	@Override
-	public void hide() {
+        // Actualizar movimiento y verificar colisiones
+        if (!lancha.estaHerido()) {
+            lancha.actualizarMovimiento();
+            if (!obstaculos.actualizarMovimiento(lancha)) {
+                // Si el juego termina, actualizar HighScore y pasar a la pantalla Game Over
+                if (game.getHigherScore() < lancha.getPuntos())
+                    game.setHigherScore(lancha.getPuntos());
+                game.setScreen(new GameOverScreen(game, lancha.getPuntos()));
+                dispose();
+            }
 
-	}
 
-	@Override
-	public void pause() {
-		obstaculos.pausar();
-		game.setScreen(new PausaScreen(game, this));
-	}
 
-	@Override
-	public void resume() {
+        }
 
-	}
+        lancha.dibujar(batch);
+        obstaculos.actualizarDibujoLluvia(batch);
 
-	@Override
-	public void dispose() {
-      lancha.destruir();
-      obstaculos.destruir();
+        batch.end();
+    }
 
-	}
+    @Override
+    public void resize(int width, int height) {
+    }
 
+    @Override
+    public void show() {
+        obstaculos.continuar();
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void pause() {
+        obstaculos.pausar();
+        game.setScreen(new PausaScreen(game, this));
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void dispose() {
+        lancha.destruir();
+        obstaculos.destruir();
+        fondo.dispose();
+    }
 }

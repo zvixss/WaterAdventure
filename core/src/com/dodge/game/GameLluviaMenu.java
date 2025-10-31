@@ -12,7 +12,7 @@ public class GameLluviaMenu extends Game {
 
 	public void create() {
 		batch = new SpriteBatch();
-		font = new BitmapFont(); // use libGDX's default Arial font
+        font = new BitmapFont(); // Use libGDX's default Arial font
 		this.setScreen(new TutorialScreen(this));
 	}
 

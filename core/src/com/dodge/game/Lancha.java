@@ -11,17 +11,17 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Lancha {
 	private Rectangle hitbox;
-	private Texture carImage;
-	private Sound sonidoChoque;
+	final private Texture boatImage;
+	final private Sound sonidoChoque;
 	private int vidas = 3;
 	private int puntos = 0;
-	private int velx = 400;
+	final private int velx = 400;
 	private boolean herido = false;
-	private int tiempoHeridoMax=50;
+	final private int tiempoHeridoMax=50;
 	private int tiempoHerido;
 
 	public Lancha(Texture tex, Sound ss) {
-		carImage = tex;
+		boatImage = tex;
 		sonidoChoque = ss;
 	}
 
@@ -59,9 +59,9 @@ public class Lancha {
 
 	public void dibujar(SpriteBatch batch) {
 		if (!herido)
-		   batch.draw(carImage, hitbox.x, hitbox.y);
+		   batch.draw(boatImage, hitbox.x, hitbox.y);
 		else {
-			batch.draw(carImage, hitbox.x, hitbox.y+ MathUtils.random(-5,5));
+			batch.draw(boatImage, hitbox.x, hitbox.y+ MathUtils.random(-5,5));
 		    tiempoHerido--;
 		    if (tiempoHerido<=0) herido = false;
 		}
@@ -90,7 +90,7 @@ public class Lancha {
 
 
 	public void destruir() {
-		carImage.dispose();
+		boatImage.dispose();
 	}
 
 	public boolean estaHerido() {
