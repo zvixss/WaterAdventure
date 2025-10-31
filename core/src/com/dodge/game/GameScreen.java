@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class GameScreen implements Screen {
     final GameWaterMenu game;
     final private OrthographicCamera camera;
-    private SpriteBatch batch;
+    private SpriteBatch batch; // Usará el batch de GameWaterMenu
     final private BitmapFont font;
     final private Lancha lancha;
     final private Obstaculos obstaculos;
@@ -22,28 +22,28 @@ public class GameScreen implements Screen {
 
     public GameScreen(final GameWaterMenu game) {
         this.game = game;
-        this.batch = game.getBatch();
+        this.batch = game.getBatch(); // <-- CORRECCIÓN IMPORTANTE 1: Usar el batch principal
         this.font = game.getFont();
 
         // Inicializar sonidos y texturas de los objetos
         Sound choqueSound = Gdx.audio.newSound(Gdx.files.internal("choque.mp3"));
         lancha = new Lancha(new Texture(Gdx.files.internal("lancha.png")), choqueSound);
 
-        Texture concha = new Texture(Gdx.files.internal("concha.png"));
-        Texture boya = new Texture(Gdx.files.internal("boya.png"));
-        Texture glaciar = new Texture(Gdx.files.internal("glaciar.png"));
-        Texture medusa = new Texture(Gdx.files.internal("medusa.png"));
+        // Ya no cargamos las texturas de los obstáculos aquí
         Sound coinSound = Gdx.audio.newSound(Gdx.files.internal("moneda.mp3"));
         Music instrumentalMusic = Gdx.audio.newMusic(Gdx.files.internal("instrumental.mp3"));
 
-        obstaculos = new Obstaculos(concha, boya, glaciar, medusa, coinSound, instrumentalMusic);
+        // <-- MODIFICACIÓN: Constructor de Obstaculos simplificado
+        // La clase Obstaculos ahora carga sus propias texturas.
+        obstaculos = new Obstaculos(coinSound, instrumentalMusic);
 
         // Cargar la textura del fondo
         fondo = new Texture(Gdx.files.internal("game_background.png"));
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
-        batch = new SpriteBatch();
+
+        // batch = new SpriteBatch(); // <-- CORRECCIÓN IMPORTANTE 2: ELIMINAR ESTA LÍNEA
 
         lancha.crear();
         obstaculos.crear();
@@ -68,6 +68,8 @@ public class GameScreen implements Screen {
         // Actualizar movimiento y verificar colisiones
         if (!lancha.estaHerido()) {
             lancha.actualizarMovimiento();
+
+            // La lógica de colisión ahora está dentro de actualizarMovimiento
             if (!obstaculos.actualizarMovimiento(lancha)) {
                 // Si el juego termina, actualizar HighScore y pasar a la pantalla Game Over
                 if (game.getHigherScore() < lancha.getPuntos())
@@ -79,7 +81,7 @@ public class GameScreen implements Screen {
         }
 
         lancha.dibujar(batch);
-        obstaculos.actualizarDibujoObjeto(batch);
+        obstaculos.actualizarDibujoObjeto(batch); // Llama al método de dibujo refactorizado
 
         batch.end();
     }
@@ -112,8 +114,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        // El batch NO se destruye aquí (se destruye en GameWaterMenu)
         lancha.destruir();
-        obstaculos.destruir();
+        obstaculos.destruir(); // Ahora también destruye texturas y sonidos de obstáculos
         fondo.dispose();
     }
 }

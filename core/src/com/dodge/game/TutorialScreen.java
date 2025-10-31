@@ -72,7 +72,7 @@ public class TutorialScreen implements Screen {
 
         // Controles
         batch.draw(arrowKeysIcon, 50, 300, 64, 64);
-        font.draw(batch, "Usa las flechas para mover el auto a todas las direcciones!", 120, 330);
+        font.draw(batch, "Usa las flechas para mover la lancha a todas las direcciones!", 120, 330);
 
         font.setColor(1, 1, 1, opacity);
         font.draw(batch, "Cargando...", 100, 250);
