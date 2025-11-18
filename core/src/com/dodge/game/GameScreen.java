@@ -55,14 +55,13 @@ public class GameScreen implements Screen {
         batch.draw(fondo, 0, 0, 800, 480);
         font.draw(batch, "Monedas totales: " + lancha.getPuntos(), 5, 475);
         font.draw(batch, "Vidas : " + lancha.getVidas(), 670, 475);
-        font.draw(batch, "HighScore : " + game.getHigherScore(), camera.viewportWidth / 2 - 50, 475);
+        this.font.draw(this.batch, "HighScore : " + ScoreManager.getInstance().getHighScore(), this.camera.viewportWidth / 2f - 50, 475f);
 
         if (!lancha.estaHerido()) {
             lancha.actualizarMovimiento();
 
             if (!obstaculos.actualizarMovimiento(lancha)) {
-                if (game.getHigherScore() < lancha.getPuntos())
-                    game.setHigherScore(lancha.getPuntos());
+                ScoreManager.getInstance().updateHighScore(this.lancha.getPuntos());
                 game.setScreen(new GameOverScreen(game, lancha.getPuntos()));
                 dispose();
             }

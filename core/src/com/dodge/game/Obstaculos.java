@@ -76,7 +76,7 @@ public class Obstaculos {
 
         for (Iterator<Entidad> iter = entidades.iterator(); iter.hasNext(); ) {
             Entidad entidad = iter.next();
-            entidad.actualizarMovimiento(Gdx.graphics.getDeltaTime());
+            entidad.actualizar(Gdx.graphics.getDeltaTime());
 
             if (entidad.estaFueraDePantalla()) {
                 iter.remove();

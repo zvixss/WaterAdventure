@@ -64,7 +64,7 @@ public class GameOverScreen implements Screen {
 
         font.getData().setScale(1.5f);
         font.draw(batch, "Puntaje: " + score, 330, 250);
-        font.draw(batch, "Mejor Puntaje: " + game.getHigherScore(), 330, 220);
+        font.draw(batch, "Mejor Puntaje: " + ScoreManager.getInstance().getHighScore(), 330, 220);
 
         font.setColor(Color.BLACK);
 

@@ -17,13 +17,21 @@ public abstract class Entidad {
         this.escala = escala;
     }
 
-    public void actualizarMovimiento(float deltaTime) {
+    public final void actualizar(float deltaTime) {
+        mover(deltaTime);
+        reaccionar();
+    }
+
+
+    protected void mover(float deltaTime) {
         hitbox.y -= 300 * deltaTime;
     }
 
 
-    public abstract void dibujar(SpriteBatch batch);
+    protected void reaccionar() {
+    }
 
+    public abstract void dibujar(SpriteBatch batch);
 
     public Rectangle getHitbox() {
         return hitbox;
