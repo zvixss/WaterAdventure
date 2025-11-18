@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>GameWaterMenu.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+GameWaterMenu.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">dodge</span><span class="s2">.</span><span class="s1">game</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">Game</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">g2d</span><span class="s2">.</span><span class="s1">BitmapFont</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">g2d</span><span class="s2">.</span><span class="s1">SpriteBatch</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">GameWaterMenu </span><span class="s0">extends </span><span class="s1">Game </span><span class="s2">{</span>
+
+	<span class="s0">private </span><span class="s1">SpriteBatch batch</span><span class="s2">;</span>
+	<span class="s0">private </span><span class="s1">BitmapFont font</span><span class="s2">;</span>
+
+	<span class="s0">public void </span><span class="s1">create</span><span class="s2">() {</span>
+		<span class="s1">batch </span><span class="s2">= </span><span class="s0">new </span><span class="s1">SpriteBatch</span><span class="s2">();</span>
+        <span class="s1">font </span><span class="s2">= </span><span class="s0">new </span><span class="s1">BitmapFont</span><span class="s2">(); </span><span class="s3">// Use libGDX's default Arial font</span>
+		<span class="s0">this</span><span class="s2">.</span><span class="s1">setScreen</span><span class="s2">(</span><span class="s0">new </span><span class="s1">TutorialScreen</span><span class="s2">(</span><span class="s0">this</span><span class="s2">));</span>
+	<span class="s2">}</span>
+
+	<span class="s0">public void </span><span class="s1">render</span><span class="s2">() {</span>
+		<span class="s0">super</span><span class="s2">.</span><span class="s1">render</span><span class="s2">(); </span><span class="s3">// important!</span>
+	<span class="s2">}</span>
+
+	<span class="s0">public void </span><span class="s1">dispose</span><span class="s2">() {</span>
+		<span class="s1">batch</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+		<span class="s1">font</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+	<span class="s2">}</span>
+
+	<span class="s0">public </span><span class="s1">SpriteBatch getBatch</span><span class="s2">() {</span>
+		<span class="s0">return </span><span class="s1">batch</span><span class="s2">;</span>
+	<span class="s2">}</span>
+
+	<span class="s0">public </span><span class="s1">BitmapFont getFont</span><span class="s2">() {</span>
+		<span class="s0">return </span><span class="s1">font</span><span class="s2">;</span>
+	<span class="s2">}</span>
+
+
+
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

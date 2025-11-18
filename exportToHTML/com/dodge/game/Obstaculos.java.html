@@ -1,0 +1,148 @@
+<html>
+<head>
+<title>Obstaculos.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Obstaculos.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">dodge</span><span class="s2">.</span><span class="s1">game</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">Gdx</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">audio</span><span class="s2">.</span><span class="s1">Music</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">audio</span><span class="s2">.</span><span class="s1">Sound</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">Texture</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">g2d</span><span class="s2">.</span><span class="s1">SpriteBatch</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">math</span><span class="s2">.</span><span class="s1">MathUtils</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">utils</span><span class="s2">.</span><span class="s1">Array</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">utils</span><span class="s2">.</span><span class="s1">TimeUtils</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Iterator</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">Obstaculos </span><span class="s2">{</span>
+
+    <span class="s0">private </span><span class="s1">Array</span><span class="s2">&lt;</span><span class="s1">Entidad</span><span class="s2">&gt; </span><span class="s1">entidades</span><span class="s2">;</span>
+    <span class="s0">private long </span><span class="s1">lastSpawnTime</span><span class="s2">;</span>
+
+    <span class="s0">final private </span><span class="s1">Sound coinSound</span><span class="s2">;</span>
+    <span class="s0">final private </span><span class="s1">Music instrumentalMusic</span><span class="s2">;</span>
+
+    <span class="s0">final private </span><span class="s1">Texture texBoya</span><span class="s2">;</span>
+    <span class="s0">final private </span><span class="s1">Texture texGlaciar</span><span class="s2">;</span>
+    <span class="s0">final private </span><span class="s1">Texture texMedusa</span><span class="s2">;</span>
+    <span class="s0">final private </span><span class="s1">Texture texConcha</span><span class="s2">;</span>
+    <span class="s0">final private </span><span class="s1">Texture texBotella</span><span class="s2">;</span>
+
+    <span class="s0">public </span><span class="s1">Obstaculos</span><span class="s2">(</span><span class="s1">Sound coinSound</span><span class="s2">, </span><span class="s1">Music instrumentalMusic</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">coinSound </span><span class="s2">= </span><span class="s1">coinSound</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">instrumentalMusic </span><span class="s2">= </span><span class="s1">instrumentalMusic</span><span class="s2">;</span>
+
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">texBoya </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Texture</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">files</span><span class="s2">.</span><span class="s1">internal</span><span class="s2">(</span><span class="s3">&quot;boya.png&quot;</span><span class="s2">));</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">texGlaciar </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Texture</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">files</span><span class="s2">.</span><span class="s1">internal</span><span class="s2">(</span><span class="s3">&quot;glaciar.png&quot;</span><span class="s2">));</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">texMedusa </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Texture</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">files</span><span class="s2">.</span><span class="s1">internal</span><span class="s2">(</span><span class="s3">&quot;medusa.png&quot;</span><span class="s2">));</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">texConcha </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Texture</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">files</span><span class="s2">.</span><span class="s1">internal</span><span class="s2">(</span><span class="s3">&quot;concha.png&quot;</span><span class="s2">));</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">texBotella </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Texture</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">files</span><span class="s2">.</span><span class="s1">internal</span><span class="s2">(</span><span class="s3">&quot;botella.png&quot;</span><span class="s2">));</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">crear</span><span class="s2">() {</span>
+        <span class="s1">entidades </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Array</span><span class="s2">&lt;&gt;();</span>
+        <span class="s1">crearObstaculo</span><span class="s2">();</span>
+
+        <span class="s1">instrumentalMusic</span><span class="s2">.</span><span class="s1">setLooping</span><span class="s2">(</span><span class="s0">true</span><span class="s2">);</span>
+        <span class="s1">instrumentalMusic</span><span class="s2">.</span><span class="s1">play</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">private void </span><span class="s1">crearObstaculo</span><span class="s2">() {</span>
+        <span class="s0">float </span><span class="s1">x </span><span class="s2">= </span><span class="s1">MathUtils</span><span class="s2">.</span><span class="s1">random</span><span class="s2">(</span><span class="s4">0</span><span class="s2">, </span><span class="s4">800 </span><span class="s2">- </span><span class="s4">64</span><span class="s2">);</span>
+        <span class="s0">float </span><span class="s1">y </span><span class="s2">= </span><span class="s4">480</span><span class="s2">;</span>
+        <span class="s0">int </span><span class="s1">tipo </span><span class="s2">= </span><span class="s1">MathUtils</span><span class="s2">.</span><span class="s1">random</span><span class="s2">(</span><span class="s4">1</span><span class="s2">, </span><span class="s4">10</span><span class="s2">) &lt; </span><span class="s4">5 </span><span class="s2">? </span><span class="s4">1 </span><span class="s2">: </span><span class="s4">2</span><span class="s2">;</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">tipo </span><span class="s2">== </span><span class="s4">1</span><span class="s2">) {</span>
+            <span class="s0">int </span><span class="s1">subtipo </span><span class="s2">= </span><span class="s1">MathUtils</span><span class="s2">.</span><span class="s1">random</span><span class="s2">(</span><span class="s4">0</span><span class="s2">, </span><span class="s4">2</span><span class="s2">);</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">subtipo </span><span class="s2">== </span><span class="s4">0</span><span class="s2">) {</span>
+                <span class="s1">entidades</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Boya</span><span class="s2">(</span><span class="s1">texBoya</span><span class="s2">, </span><span class="s1">x</span><span class="s2">, </span><span class="s1">y</span><span class="s2">));</span>
+            <span class="s2">} </span><span class="s0">else if </span><span class="s2">(</span><span class="s1">subtipo </span><span class="s2">== </span><span class="s4">1</span><span class="s2">) {</span>
+                <span class="s1">entidades</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Glaciar</span><span class="s2">(</span><span class="s1">texGlaciar</span><span class="s2">, </span><span class="s1">x</span><span class="s2">, </span><span class="s1">y</span><span class="s2">));</span>
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                <span class="s1">entidades</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Medusa</span><span class="s2">(</span><span class="s1">texMedusa</span><span class="s2">, </span><span class="s1">x</span><span class="s2">, </span><span class="s1">y</span><span class="s2">));</span>
+            <span class="s2">}</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">MathUtils</span><span class="s2">.</span><span class="s1">random</span><span class="s2">(</span><span class="s4">1</span><span class="s2">, </span><span class="s4">10</span><span class="s2">) == </span><span class="s4">1</span><span class="s2">) {</span>
+                <span class="s1">entidades</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Botella</span><span class="s2">(</span><span class="s1">texBotella</span><span class="s2">, </span><span class="s1">x</span><span class="s2">, </span><span class="s1">y</span><span class="s2">));</span>
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                <span class="s1">entidades</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Concha</span><span class="s2">(</span><span class="s1">texConcha</span><span class="s2">, </span><span class="s1">x</span><span class="s2">, </span><span class="s1">y</span><span class="s2">));</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s1">lastSpawnTime </span><span class="s2">= </span><span class="s1">TimeUtils</span><span class="s2">.</span><span class="s1">nanoTime</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">actualizarMovimiento</span><span class="s2">(</span><span class="s1">Lancha lancha</span><span class="s2">) {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">TimeUtils</span><span class="s2">.</span><span class="s1">nanoTime</span><span class="s2">() - </span><span class="s1">lastSpawnTime </span><span class="s2">&gt; </span><span class="s4">100000000</span><span class="s2">) {</span>
+            <span class="s1">crearObstaculo</span><span class="s2">();</span>
+        <span class="s2">}</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">Iterator</span><span class="s2">&lt;</span><span class="s1">Entidad</span><span class="s2">&gt; </span><span class="s1">iter </span><span class="s2">= </span><span class="s1">entidades</span><span class="s2">.</span><span class="s1">iterator</span><span class="s2">(); </span><span class="s1">iter</span><span class="s2">.</span><span class="s1">hasNext</span><span class="s2">(); ) {</span>
+            <span class="s1">Entidad entidad </span><span class="s2">= </span><span class="s1">iter</span><span class="s2">.</span><span class="s1">next</span><span class="s2">();</span>
+            <span class="s1">entidad</span><span class="s2">.</span><span class="s1">actualizar</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">getDeltaTime</span><span class="s2">());</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">entidad</span><span class="s2">.</span><span class="s1">estaFueraDePantalla</span><span class="s2">()) {</span>
+                <span class="s1">iter</span><span class="s2">.</span><span class="s1">remove</span><span class="s2">();</span>
+                <span class="s0">continue</span><span class="s2">;</span>
+            <span class="s2">}</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">entidad</span><span class="s2">.</span><span class="s1">getHitbox</span><span class="s2">().</span><span class="s1">overlaps</span><span class="s2">(</span><span class="s1">lancha</span><span class="s2">.</span><span class="s1">getArea</span><span class="s2">())) {</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">entidad </span><span class="s0">instanceof </span><span class="s1">IRecolectable</span><span class="s2">) {</span>
+                    <span class="s1">IRecolectable recolectable </span><span class="s2">= (</span><span class="s1">IRecolectable</span><span class="s2">) </span><span class="s1">entidad</span><span class="s2">;</span>
+                    <span class="s1">lancha</span><span class="s2">.</span><span class="s1">sumarPuntos</span><span class="s2">(</span><span class="s1">recolectable</span><span class="s2">.</span><span class="s1">getPuntos</span><span class="s2">());</span>
+
+                    <span class="s1">coinSound</span><span class="s2">.</span><span class="s1">play</span><span class="s2">();</span>
+                <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                    <span class="s1">lancha</span><span class="s2">.</span><span class="s1">dañar</span><span class="s2">();</span>
+                    <span class="s0">if </span><span class="s2">(</span><span class="s1">lancha</span><span class="s2">.</span><span class="s1">getVidas</span><span class="s2">() &lt;= </span><span class="s4">0</span><span class="s2">) {</span>
+                        <span class="s0">return false</span><span class="s2">;</span>
+                    <span class="s2">}</span>
+                <span class="s2">}</span>
+                <span class="s1">iter</span><span class="s2">.</span><span class="s1">remove</span><span class="s2">();</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+        <span class="s0">return true</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">actualizarDibujoObjeto</span><span class="s2">(</span><span class="s1">SpriteBatch batch</span><span class="s2">) {</span>
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">Entidad entidad </span><span class="s2">: </span><span class="s1">entidades</span><span class="s2">) {</span>
+            <span class="s1">entidad</span><span class="s2">.</span><span class="s1">dibujar</span><span class="s2">(</span><span class="s1">batch</span><span class="s2">);</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">destruir</span><span class="s2">() {</span>
+        <span class="s1">coinSound</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+        <span class="s1">instrumentalMusic</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+
+        <span class="s1">texBoya</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+        <span class="s1">texGlaciar</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+        <span class="s1">texMedusa</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+        <span class="s1">texConcha</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+        <span class="s1">texBotella</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">pausar</span><span class="s2">() {</span>
+        <span class="s1">instrumentalMusic</span><span class="s2">.</span><span class="s1">pause</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">continuar</span><span class="s2">() {</span>
+        <span class="s1">instrumentalMusic</span><span class="s2">.</span><span class="s1">play</span><span class="s2">();</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

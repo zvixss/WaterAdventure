@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>Glaciar.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Glaciar.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">dodge</span><span class="s2">.</span><span class="s1">game</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">Texture</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">g2d</span><span class="s2">.</span><span class="s1">SpriteBatch</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">Glaciar </span><span class="s0">extends </span><span class="s1">Entidad </span><span class="s2">{</span>
+
+    <span class="s0">public </span><span class="s1">Glaciar</span><span class="s2">(</span><span class="s1">Texture textura</span><span class="s2">, </span><span class="s0">float </span><span class="s1">x</span><span class="s2">, </span><span class="s0">float </span><span class="s1">y</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">(</span><span class="s1">textura</span><span class="s2">, </span><span class="s1">x</span><span class="s2">, </span><span class="s1">y</span><span class="s2">, </span><span class="s3">20</span><span class="s2">, </span><span class="s3">28</span><span class="s2">, </span><span class="s3">0.3f</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">dibujar</span><span class="s2">(</span><span class="s1">SpriteBatch batch</span><span class="s2">) {</span>
+        <span class="s0">float </span><span class="s1">drawX </span><span class="s2">= </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">x </span><span class="s2">- ((</span><span class="s1">textura</span><span class="s2">.</span><span class="s1">getWidth</span><span class="s2">() * </span><span class="s1">escala </span><span class="s2">- </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">width</span><span class="s2">) / </span><span class="s3">2</span><span class="s2">);</span>
+        <span class="s1">batch</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s1">textura</span><span class="s2">, </span><span class="s1">drawX</span><span class="s2">, </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">y</span><span class="s2">,</span>
+                <span class="s1">textura</span><span class="s2">.</span><span class="s1">getWidth</span><span class="s2">() * </span><span class="s1">escala</span><span class="s2">, </span><span class="s1">textura</span><span class="s2">.</span><span class="s1">getHeight</span><span class="s2">() * </span><span class="s1">escala</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>GameOverScreen.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+.s5 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+GameOverScreen.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">dodge</span><span class="s2">.</span><span class="s1">game</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">Gdx</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">Screen</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">Color</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">OrthographicCamera</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">Texture</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">g2d</span><span class="s2">.</span><span class="s1">BitmapFont</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">g2d</span><span class="s2">.</span><span class="s1">SpriteBatch</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">utils</span><span class="s2">.</span><span class="s1">ScreenUtils</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">GameOverScreen </span><span class="s0">implements </span><span class="s1">Screen </span><span class="s2">{</span>
+    <span class="s0">private final </span><span class="s1">GameWaterMenu game</span><span class="s2">;</span>
+    <span class="s0">final private </span><span class="s1">SpriteBatch batch</span><span class="s2">;</span>
+    <span class="s0">final private </span><span class="s1">BitmapFont font</span><span class="s2">;</span>
+    <span class="s0">final private </span><span class="s1">OrthographicCamera camera</span><span class="s2">;</span>
+
+    <span class="s0">private final </span><span class="s1">Texture backgroundImage</span><span class="s2">;</span>
+    <span class="s0">private final </span><span class="s1">Texture gameOverImage</span><span class="s2">;</span>
+    <span class="s0">private final </span><span class="s1">Texture retryButton</span><span class="s2">;</span>
+    <span class="s0">private final </span><span class="s1">Texture retryButtonHover</span><span class="s2">;</span>
+    <span class="s0">private final </span><span class="s1">Texture exitButton</span><span class="s2">;</span>
+    <span class="s0">private final </span><span class="s1">Texture exitButtonHover</span><span class="s2">;</span>
+
+    <span class="s0">private boolean </span><span class="s1">retryHover</span><span class="s2">;</span>
+    <span class="s0">private boolean </span><span class="s1">exitHover</span><span class="s2">;</span>
+
+    <span class="s0">final private int </span><span class="s1">score</span><span class="s2">;</span>
+
+    <span class="s0">public </span><span class="s1">GameOverScreen</span><span class="s2">(</span><span class="s0">final </span><span class="s1">GameWaterMenu game</span><span class="s2">, </span><span class="s0">int </span><span class="s1">score</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">game </span><span class="s2">= </span><span class="s1">game</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">batch </span><span class="s2">= </span><span class="s1">game</span><span class="s2">.</span><span class="s1">getBatch</span><span class="s2">();</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">font </span><span class="s2">= </span><span class="s1">game</span><span class="s2">.</span><span class="s1">getFont</span><span class="s2">();</span>
+        <span class="s1">camera </span><span class="s2">= </span><span class="s0">new </span><span class="s1">OrthographicCamera</span><span class="s2">();</span>
+        <span class="s1">camera</span><span class="s2">.</span><span class="s1">setToOrtho</span><span class="s2">(</span><span class="s0">false</span><span class="s2">, </span><span class="s3">800</span><span class="s2">, </span><span class="s3">480</span><span class="s2">);</span>
+
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">backgroundImage </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Texture</span><span class="s2">(</span><span class="s4">&quot;background.png&quot;</span><span class="s2">);</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">gameOverImage </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Texture</span><span class="s2">(</span><span class="s4">&quot;game_over_image.png&quot;</span><span class="s2">);</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">retryButton </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Texture</span><span class="s2">(</span><span class="s4">&quot;retry_button.png&quot;</span><span class="s2">);</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">retryButtonHover </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Texture</span><span class="s2">(</span><span class="s4">&quot;retry_button_hover.png&quot;</span><span class="s2">);</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">exitButton </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Texture</span><span class="s2">(</span><span class="s4">&quot;exit_button.png&quot;</span><span class="s2">);</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">exitButtonHover </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Texture</span><span class="s2">(</span><span class="s4">&quot;exit_button_hover.png&quot;</span><span class="s2">);</span>
+
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">retryHover </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">exitHover </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">score </span><span class="s2">= </span><span class="s1">score</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">render</span><span class="s2">(</span><span class="s0">float </span><span class="s1">delta</span><span class="s2">) {</span>
+        <span class="s1">ScreenUtils</span><span class="s2">.</span><span class="s1">clear</span><span class="s2">(</span><span class="s3">0</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">1</span><span class="s2">);</span>
+
+        <span class="s0">int </span><span class="s1">mouseX </span><span class="s2">= </span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">input</span><span class="s2">.</span><span class="s1">getX</span><span class="s2">();</span>
+        <span class="s0">int </span><span class="s1">mouseY </span><span class="s2">= </span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">getHeight</span><span class="s2">() - </span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">input</span><span class="s2">.</span><span class="s1">getY</span><span class="s2">();</span>
+
+        <span class="s1">retryHover </span><span class="s2">= </span><span class="s1">mouseX </span><span class="s2">&gt;= </span><span class="s3">200 </span><span class="s2">&amp;&amp; </span><span class="s1">mouseX </span><span class="s2">&lt;= </span><span class="s3">348 </span><span class="s2">&amp;&amp; </span><span class="s1">mouseY </span><span class="s2">&gt;= </span><span class="s3">50 </span><span class="s2">&amp;&amp; </span><span class="s1">mouseY </span><span class="s2">&lt;= </span><span class="s3">198</span><span class="s2">;</span>
+        <span class="s1">exitHover </span><span class="s2">= </span><span class="s1">mouseX </span><span class="s2">&gt;= </span><span class="s3">450 </span><span class="s2">&amp;&amp; </span><span class="s1">mouseX </span><span class="s2">&lt;= </span><span class="s3">598 </span><span class="s2">&amp;&amp; </span><span class="s1">mouseY </span><span class="s2">&gt;= </span><span class="s3">50 </span><span class="s2">&amp;&amp; </span><span class="s1">mouseY </span><span class="s2">&lt;= </span><span class="s3">198</span><span class="s2">;</span>
+
+        <span class="s1">batch</span><span class="s2">.</span><span class="s1">begin</span><span class="s2">();</span>
+
+        <span class="s1">batch</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s1">backgroundImage</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">800</span><span class="s2">, </span><span class="s3">480</span><span class="s2">);</span>
+        <span class="s1">batch</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s1">gameOverImage</span><span class="s2">, </span><span class="s3">300</span><span class="s2">, </span><span class="s3">300</span><span class="s2">, </span><span class="s3">200</span><span class="s2">, </span><span class="s3">100</span><span class="s2">);</span>
+
+        <span class="s1">font</span><span class="s2">.</span><span class="s1">getData</span><span class="s2">().</span><span class="s1">setScale</span><span class="s2">(</span><span class="s3">1.5f</span><span class="s2">);</span>
+        <span class="s1">font</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s1">batch</span><span class="s2">, </span><span class="s4">&quot;Puntaje: &quot; </span><span class="s2">+ </span><span class="s1">score</span><span class="s2">, </span><span class="s3">330</span><span class="s2">, </span><span class="s3">250</span><span class="s2">);</span>
+        <span class="s1">font</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s1">batch</span><span class="s2">, </span><span class="s4">&quot;Mejor Puntaje: &quot; </span><span class="s2">+ </span><span class="s1">ScoreManager</span><span class="s2">.</span><span class="s1">getInstance</span><span class="s2">().</span><span class="s1">getHighScore</span><span class="s2">(), </span><span class="s3">330</span><span class="s2">, </span><span class="s3">220</span><span class="s2">);</span>
+
+        <span class="s1">font</span><span class="s2">.</span><span class="s1">setColor</span><span class="s2">(</span><span class="s1">Color</span><span class="s2">.</span><span class="s1">BLACK</span><span class="s2">);</span>
+
+        <span class="s1">batch</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s1">retryHover </span><span class="s2">? </span><span class="s1">retryButtonHover </span><span class="s2">: </span><span class="s1">retryButton</span><span class="s2">, </span><span class="s3">200</span><span class="s2">, </span><span class="s3">50</span><span class="s2">, </span><span class="s3">148</span><span class="s2">, </span><span class="s3">148</span><span class="s2">);</span>
+        <span class="s1">batch</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s1">exitHover </span><span class="s2">? </span><span class="s1">exitButtonHover </span><span class="s2">: </span><span class="s1">exitButton</span><span class="s2">, </span><span class="s3">450</span><span class="s2">, </span><span class="s3">50</span><span class="s2">, </span><span class="s3">148</span><span class="s2">, </span><span class="s3">148</span><span class="s2">);</span>
+
+        <span class="s1">batch</span><span class="s2">.</span><span class="s1">end</span><span class="s2">();</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">retryHover </span><span class="s2">&amp;&amp; </span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">input</span><span class="s2">.</span><span class="s1">justTouched</span><span class="s2">()) {</span>
+            <span class="s1">game</span><span class="s2">.</span><span class="s1">setScreen</span><span class="s2">(</span><span class="s0">new </span><span class="s1">GameScreen</span><span class="s2">(</span><span class="s1">game</span><span class="s2">));</span>
+            <span class="s1">dispose</span><span class="s2">();</span>
+        <span class="s2">}</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">exitHover </span><span class="s2">&amp;&amp; </span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">input</span><span class="s2">.</span><span class="s1">justTouched</span><span class="s2">()) {</span>
+            <span class="s1">Gdx</span><span class="s2">.</span><span class="s1">app</span><span class="s2">.</span><span class="s1">exit</span><span class="s2">();</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">show</span><span class="s2">() {</span>
+        <span class="s5">// TODO Auto-generated method stub</span>
+
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">resize</span><span class="s2">(</span><span class="s0">int </span><span class="s1">width</span><span class="s2">, </span><span class="s0">int </span><span class="s1">height</span><span class="s2">) {</span>
+        <span class="s5">// TODO Auto-generated method stub</span>
+
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">pause</span><span class="s2">() {</span>
+        <span class="s5">// TODO Auto-generated method stub</span>
+
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">resume</span><span class="s2">() {</span>
+        <span class="s5">// TODO Auto-generated method stub</span>
+
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">hide</span><span class="s2">() {</span>
+        <span class="s5">// TODO Auto-generated method stub</span>
+
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">dispose</span><span class="s2">() {</span>
+        <span class="s5">// TODO Auto-generated method stub</span>
+        <span class="s1">backgroundImage</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+        <span class="s1">gameOverImage</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+        <span class="s1">retryButton</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+        <span class="s1">retryButtonHover</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

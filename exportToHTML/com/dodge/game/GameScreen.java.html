@@ -1,0 +1,130 @@
+<html>
+<head>
+<title>GameScreen.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
+.s5 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+GameScreen.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">dodge</span><span class="s2">.</span><span class="s1">game</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">Gdx</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">Screen</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">audio</span><span class="s2">.</span><span class="s1">Music</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">audio</span><span class="s2">.</span><span class="s1">Sound</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">OrthographicCamera</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">Texture</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">g2d</span><span class="s2">.</span><span class="s1">BitmapFont</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">g2d</span><span class="s2">.</span><span class="s1">SpriteBatch</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">utils</span><span class="s2">.</span><span class="s1">ScreenUtils</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">GameScreen </span><span class="s0">implements </span><span class="s1">Screen </span><span class="s2">{</span>
+    <span class="s0">final </span><span class="s1">GameWaterMenu game</span><span class="s2">;</span>
+    <span class="s0">final private </span><span class="s1">OrthographicCamera camera</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">SpriteBatch batch</span><span class="s2">;</span>
+    <span class="s0">final private </span><span class="s1">BitmapFont font</span><span class="s2">;</span>
+    <span class="s0">final private </span><span class="s1">Lancha lancha</span><span class="s2">;</span>
+    <span class="s0">final private </span><span class="s1">Obstaculos obstaculos</span><span class="s2">;</span>
+    <span class="s0">final private </span><span class="s1">Texture fondo</span><span class="s2">;</span>
+
+
+    <span class="s0">public </span><span class="s1">GameScreen</span><span class="s2">(</span><span class="s0">final </span><span class="s1">GameWaterMenu game</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">game </span><span class="s2">= </span><span class="s1">game</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">batch </span><span class="s2">= </span><span class="s1">game</span><span class="s2">.</span><span class="s1">getBatch</span><span class="s2">();</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">font </span><span class="s2">= </span><span class="s1">game</span><span class="s2">.</span><span class="s1">getFont</span><span class="s2">();</span>
+
+        <span class="s1">Sound choqueSound </span><span class="s2">= </span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">audio</span><span class="s2">.</span><span class="s1">newSound</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">files</span><span class="s2">.</span><span class="s1">internal</span><span class="s2">(</span><span class="s3">&quot;choque.mp3&quot;</span><span class="s2">));</span>
+        <span class="s1">lancha </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Lancha</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Texture</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">files</span><span class="s2">.</span><span class="s1">internal</span><span class="s2">(</span><span class="s3">&quot;lancha.png&quot;</span><span class="s2">)), </span><span class="s1">choqueSound</span><span class="s2">);</span>
+
+        <span class="s1">Sound coinSound </span><span class="s2">= </span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">audio</span><span class="s2">.</span><span class="s1">newSound</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">files</span><span class="s2">.</span><span class="s1">internal</span><span class="s2">(</span><span class="s3">&quot;moneda.mp3&quot;</span><span class="s2">));</span>
+        <span class="s1">Music instrumentalMusic </span><span class="s2">= </span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">audio</span><span class="s2">.</span><span class="s1">newMusic</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">files</span><span class="s2">.</span><span class="s1">internal</span><span class="s2">(</span><span class="s3">&quot;instrumental.mp3&quot;</span><span class="s2">));</span>
+
+        <span class="s1">obstaculos </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Obstaculos</span><span class="s2">(</span><span class="s1">coinSound</span><span class="s2">, </span><span class="s1">instrumentalMusic</span><span class="s2">);</span>
+
+        <span class="s1">fondo </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Texture</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">files</span><span class="s2">.</span><span class="s1">internal</span><span class="s2">(</span><span class="s3">&quot;game_background.png&quot;</span><span class="s2">));</span>
+
+        <span class="s1">camera </span><span class="s2">= </span><span class="s0">new </span><span class="s1">OrthographicCamera</span><span class="s2">();</span>
+        <span class="s1">camera</span><span class="s2">.</span><span class="s1">setToOrtho</span><span class="s2">(</span><span class="s0">false</span><span class="s2">, </span><span class="s4">800</span><span class="s2">, </span><span class="s4">480</span><span class="s2">);</span>
+
+        <span class="s1">lancha</span><span class="s2">.</span><span class="s1">crear</span><span class="s2">();</span>
+        <span class="s1">obstaculos</span><span class="s2">.</span><span class="s1">crear</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">render</span><span class="s2">(</span><span class="s0">float </span><span class="s1">delta</span><span class="s2">) {</span>
+
+        <span class="s1">ScreenUtils</span><span class="s2">.</span><span class="s1">clear</span><span class="s2">(</span><span class="s4">0</span><span class="s2">, </span><span class="s4">0</span><span class="s2">, </span><span class="s4">0.2f</span><span class="s2">, </span><span class="s4">1</span><span class="s2">);</span>
+
+        <span class="s1">camera</span><span class="s2">.</span><span class="s1">update</span><span class="s2">();</span>
+
+        <span class="s1">batch</span><span class="s2">.</span><span class="s1">setProjectionMatrix</span><span class="s2">(</span><span class="s1">camera</span><span class="s2">.</span><span class="s1">combined</span><span class="s2">);</span>
+        <span class="s1">batch</span><span class="s2">.</span><span class="s1">begin</span><span class="s2">();</span>
+
+        <span class="s1">batch</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s1">fondo</span><span class="s2">, </span><span class="s4">0</span><span class="s2">, </span><span class="s4">0</span><span class="s2">, </span><span class="s4">800</span><span class="s2">, </span><span class="s4">480</span><span class="s2">);</span>
+        <span class="s1">font</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s1">batch</span><span class="s2">, </span><span class="s3">&quot;Monedas totales: &quot; </span><span class="s2">+ </span><span class="s1">lancha</span><span class="s2">.</span><span class="s1">getPuntos</span><span class="s2">(), </span><span class="s4">5</span><span class="s2">, </span><span class="s4">475</span><span class="s2">);</span>
+        <span class="s1">font</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s1">batch</span><span class="s2">, </span><span class="s3">&quot;Vidas : &quot; </span><span class="s2">+ </span><span class="s1">lancha</span><span class="s2">.</span><span class="s1">getVidas</span><span class="s2">(), </span><span class="s4">670</span><span class="s2">, </span><span class="s4">475</span><span class="s2">);</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">font</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s0">this</span><span class="s2">.</span><span class="s1">batch</span><span class="s2">, </span><span class="s3">&quot;HighScore : &quot; </span><span class="s2">+ </span><span class="s1">ScoreManager</span><span class="s2">.</span><span class="s1">getInstance</span><span class="s2">().</span><span class="s1">getHighScore</span><span class="s2">(), </span><span class="s0">this</span><span class="s2">.</span><span class="s1">camera</span><span class="s2">.</span><span class="s1">viewportWidth </span><span class="s2">/ </span><span class="s4">2f </span><span class="s2">- </span><span class="s4">50</span><span class="s2">, </span><span class="s4">475f</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(!</span><span class="s1">lancha</span><span class="s2">.</span><span class="s1">estaHerido</span><span class="s2">()) {</span>
+            <span class="s1">lancha</span><span class="s2">.</span><span class="s1">actualizarMovimiento</span><span class="s2">();</span>
+
+            <span class="s0">if </span><span class="s2">(!</span><span class="s1">obstaculos</span><span class="s2">.</span><span class="s1">actualizarMovimiento</span><span class="s2">(</span><span class="s1">lancha</span><span class="s2">)) {</span>
+                <span class="s1">ScoreManager</span><span class="s2">.</span><span class="s1">getInstance</span><span class="s2">().</span><span class="s1">updateHighScore</span><span class="s2">(</span><span class="s0">this</span><span class="s2">.</span><span class="s1">lancha</span><span class="s2">.</span><span class="s1">getPuntos</span><span class="s2">());</span>
+                <span class="s1">game</span><span class="s2">.</span><span class="s1">setScreen</span><span class="s2">(</span><span class="s0">new </span><span class="s1">GameOverScreen</span><span class="s2">(</span><span class="s1">game</span><span class="s2">, </span><span class="s1">lancha</span><span class="s2">.</span><span class="s1">getPuntos</span><span class="s2">()));</span>
+                <span class="s1">dispose</span><span class="s2">();</span>
+            <span class="s2">}</span>
+
+        <span class="s2">}</span>
+
+        <span class="s1">lancha</span><span class="s2">.</span><span class="s1">dibujar</span><span class="s2">(</span><span class="s1">batch</span><span class="s2">);</span>
+        <span class="s1">obstaculos</span><span class="s2">.</span><span class="s1">actualizarDibujoObjeto</span><span class="s2">(</span><span class="s1">batch</span><span class="s2">); </span><span class="s5">// Llama al método de dibujo refactorizado</span>
+
+        <span class="s1">batch</span><span class="s2">.</span><span class="s1">end</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">resize</span><span class="s2">(</span><span class="s0">int </span><span class="s1">width</span><span class="s2">, </span><span class="s0">int </span><span class="s1">height</span><span class="s2">) {</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">show</span><span class="s2">() {</span>
+        <span class="s1">obstaculos</span><span class="s2">.</span><span class="s1">continuar</span><span class="s2">();</span>
+
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">hide</span><span class="s2">() {</span>
+
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">pause</span><span class="s2">() {</span>
+        <span class="s1">obstaculos</span><span class="s2">.</span><span class="s1">pausar</span><span class="s2">();</span>
+        <span class="s1">game</span><span class="s2">.</span><span class="s1">setScreen</span><span class="s2">(</span><span class="s0">new </span><span class="s1">PausaScreen</span><span class="s2">(</span><span class="s1">game</span><span class="s2">, </span><span class="s0">this</span><span class="s2">));</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">resume</span><span class="s2">() {</span>
+
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">dispose</span><span class="s2">() {</span>
+        <span class="s1">lancha</span><span class="s2">.</span><span class="s1">destruir</span><span class="s2">();</span>
+        <span class="s1">obstaculos</span><span class="s2">.</span><span class="s1">destruir</span><span class="s2">();</span>
+        <span class="s1">fondo</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

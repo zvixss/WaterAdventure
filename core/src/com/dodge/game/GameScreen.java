@@ -31,7 +31,7 @@ public class GameScreen implements Screen {
         Sound coinSound = Gdx.audio.newSound(Gdx.files.internal("moneda.mp3"));
         Music instrumentalMusic = Gdx.audio.newMusic(Gdx.files.internal("instrumental.mp3"));
 
-        obstaculos = new Obstaculos(coinSound, instrumentalMusic);
+        obstaculos = new Obstaculos(coinSound, instrumentalMusic, lancha);
 
         fondo = new Texture(Gdx.files.internal("game_background.png"));
 

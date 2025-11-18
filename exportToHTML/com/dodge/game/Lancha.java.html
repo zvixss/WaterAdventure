@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>Lancha.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Lancha.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">dodge</span><span class="s2">.</span><span class="s1">game</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">Gdx</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">Input</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">audio</span><span class="s2">.</span><span class="s1">Sound</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">Texture</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">g2d</span><span class="s2">.</span><span class="s1">SpriteBatch</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">math</span><span class="s2">.</span><span class="s1">MathUtils</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">badlogic</span><span class="s2">.</span><span class="s1">gdx</span><span class="s2">.</span><span class="s1">math</span><span class="s2">.</span><span class="s1">Rectangle</span><span class="s2">;</span>
+
+
+<span class="s0">public class </span><span class="s1">Lancha </span><span class="s2">{</span>
+	<span class="s0">private </span><span class="s1">Rectangle hitbox</span><span class="s2">;</span>
+	<span class="s0">final private </span><span class="s1">Texture boatImage</span><span class="s2">;</span>
+	<span class="s0">final private </span><span class="s1">Sound sonidoChoque</span><span class="s2">;</span>
+	<span class="s0">private int </span><span class="s1">vidas </span><span class="s2">= </span><span class="s3">3</span><span class="s2">;</span>
+	<span class="s0">private int </span><span class="s1">puntos </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
+	<span class="s0">final private int </span><span class="s1">velx </span><span class="s2">= </span><span class="s3">400</span><span class="s2">;</span>
+	<span class="s0">private boolean </span><span class="s1">herido </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+	<span class="s0">final private int </span><span class="s1">tiempoHeridoMax</span><span class="s2">=</span><span class="s3">50</span><span class="s2">;</span>
+	<span class="s0">private int </span><span class="s1">tiempoHerido</span><span class="s2">;</span>
+
+	<span class="s0">public </span><span class="s1">Lancha</span><span class="s2">(</span><span class="s1">Texture tex</span><span class="s2">, </span><span class="s1">Sound ss</span><span class="s2">) {</span>
+		<span class="s1">boatImage </span><span class="s2">= </span><span class="s1">tex</span><span class="s2">;</span>
+		<span class="s1">sonidoChoque </span><span class="s2">= </span><span class="s1">ss</span><span class="s2">;</span>
+	<span class="s2">}</span>
+
+	<span class="s0">public int </span><span class="s1">getVidas</span><span class="s2">() {</span>
+		<span class="s0">return </span><span class="s1">vidas</span><span class="s2">;</span>
+	<span class="s2">}</span>
+
+	<span class="s0">public int </span><span class="s1">getPuntos</span><span class="s2">() {</span>
+		<span class="s0">return </span><span class="s1">puntos</span><span class="s2">;</span>
+	<span class="s2">}</span>
+
+	<span class="s0">public </span><span class="s1">Rectangle getArea</span><span class="s2">() {</span>
+		<span class="s0">return </span><span class="s1">hitbox</span><span class="s2">;</span>
+	<span class="s2">}</span>
+
+	<span class="s0">public void </span><span class="s1">sumarPuntos</span><span class="s2">(</span><span class="s0">int </span><span class="s1">pp</span><span class="s2">) {</span>
+		<span class="s1">puntos</span><span class="s2">+=</span><span class="s1">pp</span><span class="s2">;</span>
+	<span class="s2">}</span>
+
+
+	<span class="s0">public void </span><span class="s1">crear</span><span class="s2">() {</span>
+		<span class="s1">hitbox </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rectangle</span><span class="s2">();</span>
+		<span class="s1">hitbox</span><span class="s2">.</span><span class="s1">x </span><span class="s2">= </span><span class="s3">800 </span><span class="s2">/ </span><span class="s3">2 </span><span class="s2">- </span><span class="s3">64 </span><span class="s2">/ </span><span class="s3">2</span><span class="s2">;</span>
+		<span class="s1">hitbox</span><span class="s2">.</span><span class="s1">y </span><span class="s2">= </span><span class="s3">20</span><span class="s2">;</span>
+		<span class="s1">hitbox</span><span class="s2">.</span><span class="s1">width </span><span class="s2">= </span><span class="s3">42</span><span class="s2">;</span>
+		<span class="s1">hitbox</span><span class="s2">.</span><span class="s1">height </span><span class="s2">= </span><span class="s3">70</span><span class="s2">;</span>
+	<span class="s2">}</span>
+
+	<span class="s0">public void </span><span class="s1">dañar</span><span class="s2">() {</span>
+		<span class="s1">vidas</span><span class="s2">--;</span>
+		<span class="s1">herido </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+		<span class="s1">tiempoHerido</span><span class="s2">=</span><span class="s1">tiempoHeridoMax</span><span class="s2">;</span>
+		<span class="s1">sonidoChoque</span><span class="s2">.</span><span class="s1">play</span><span class="s2">();</span>
+	<span class="s2">}</span>
+
+	<span class="s0">public void </span><span class="s1">dibujar</span><span class="s2">(</span><span class="s1">SpriteBatch batch</span><span class="s2">) {</span>
+		<span class="s0">if </span><span class="s2">(!</span><span class="s1">herido</span><span class="s2">)</span>
+		   <span class="s1">batch</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s1">boatImage</span><span class="s2">, </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">x</span><span class="s2">, </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">y</span><span class="s2">);</span>
+		<span class="s0">else </span><span class="s2">{</span>
+			<span class="s1">batch</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">(</span><span class="s1">boatImage</span><span class="s2">, </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">x</span><span class="s2">, </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">y</span><span class="s2">+ </span><span class="s1">MathUtils</span><span class="s2">.</span><span class="s1">random</span><span class="s2">(-</span><span class="s3">8</span><span class="s2">,</span><span class="s3">8</span><span class="s2">));</span>
+		    <span class="s1">tiempoHerido</span><span class="s2">--;</span>
+		    <span class="s0">if </span><span class="s2">(</span><span class="s1">tiempoHerido </span><span class="s2">&lt;= </span><span class="s3">0</span><span class="s2">) </span><span class="s1">herido </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+		<span class="s2">}</span>
+	<span class="s2">}</span>
+
+
+	<span class="s0">public void </span><span class="s1">actualizarMovimiento</span><span class="s2">() {</span>
+		<span class="s0">if</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">input</span><span class="s2">.</span><span class="s1">isKeyPressed</span><span class="s2">(</span><span class="s1">Input</span><span class="s2">.</span><span class="s1">Keys</span><span class="s2">.</span><span class="s1">LEFT</span><span class="s2">)) </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">x </span><span class="s2">-= </span><span class="s1">velx </span><span class="s2">* </span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">getDeltaTime</span><span class="s2">();</span>
+		<span class="s0">if</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">input</span><span class="s2">.</span><span class="s1">isKeyPressed</span><span class="s2">(</span><span class="s1">Input</span><span class="s2">.</span><span class="s1">Keys</span><span class="s2">.</span><span class="s1">RIGHT</span><span class="s2">)) </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">x </span><span class="s2">+= </span><span class="s1">velx </span><span class="s2">* </span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">getDeltaTime</span><span class="s2">();</span>
+		<span class="s0">if</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">input</span><span class="s2">.</span><span class="s1">isKeyPressed</span><span class="s2">(</span><span class="s1">Input</span><span class="s2">.</span><span class="s1">Keys</span><span class="s2">.</span><span class="s1">UP</span><span class="s2">)) </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">y </span><span class="s2">+= </span><span class="s1">velx </span><span class="s2">* </span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">getDeltaTime</span><span class="s2">();</span>
+		<span class="s0">if</span><span class="s2">(</span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">input</span><span class="s2">.</span><span class="s1">isKeyPressed</span><span class="s2">(</span><span class="s1">Input</span><span class="s2">.</span><span class="s1">Keys</span><span class="s2">.</span><span class="s1">DOWN</span><span class="s2">)) </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">y </span><span class="s2">-= </span><span class="s1">velx </span><span class="s2">* </span><span class="s1">Gdx</span><span class="s2">.</span><span class="s1">graphics</span><span class="s2">.</span><span class="s1">getDeltaTime</span><span class="s2">();</span>
+		<span class="s0">if</span><span class="s2">(</span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">x </span><span class="s2">&lt; </span><span class="s3">0</span><span class="s2">) </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">x </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
+		<span class="s0">if</span><span class="s2">(</span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">x </span><span class="s2">&gt; </span><span class="s3">800 </span><span class="s2">- </span><span class="s3">64</span><span class="s2">) </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">x </span><span class="s2">= </span><span class="s3">800 </span><span class="s2">- </span><span class="s3">64</span><span class="s2">;</span>
+		<span class="s0">if</span><span class="s2">(</span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">y </span><span class="s2">&lt; </span><span class="s3">0</span><span class="s2">) </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">y </span><span class="s2">= </span><span class="s3">0</span><span class="s2">;</span>
+		<span class="s0">if</span><span class="s2">(</span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">y </span><span class="s2">&gt; </span><span class="s3">480 </span><span class="s2">- </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">height</span><span class="s2">) </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">y </span><span class="s2">= </span><span class="s3">480 </span><span class="s2">- </span><span class="s1">hitbox</span><span class="s2">.</span><span class="s1">height</span><span class="s2">;</span>
+	<span class="s2">}</span>
+
+
+	<span class="s0">public void </span><span class="s1">destruir</span><span class="s2">() {</span>
+		<span class="s1">boatImage</span><span class="s2">.</span><span class="s1">dispose</span><span class="s2">();</span>
+	<span class="s2">}</span>
+
+	<span class="s0">public boolean </span><span class="s1">estaHerido</span><span class="s2">() {</span>
+	   <span class="s0">return </span><span class="s1">herido</span><span class="s2">;</span>
+   <span class="s2">}</span>
+
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

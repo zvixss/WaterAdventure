@@ -24,10 +24,12 @@ public class Obstaculos {
     final private Texture texMedusa;
     final private Texture texConcha;
     final private Texture texBotella;
+    private Lancha lancha;
 
-    public Obstaculos(Sound coinSound, Music instrumentalMusic) {
+    public Obstaculos(Sound coinSound, Music instrumentalMusic, Lancha lancha) {
         this.coinSound = coinSound;
         this.instrumentalMusic = instrumentalMusic;
+        this.lancha = lancha;
 
         this.texBoya = new Texture(Gdx.files.internal("boya.png"));
         this.texGlaciar = new Texture(Gdx.files.internal("glaciar.png"));
@@ -56,7 +58,7 @@ public class Obstaculos {
             } else if (subtipo == 1) {
                 entidades.add(new Glaciar(texGlaciar, x, y));
             } else {
-                entidades.add(new Medusa(texMedusa, x, y));
+                entidades.add(new Medusa(texMedusa, x, y, lancha));
             }
         } else {
             if (MathUtils.random(1, 10) == 1) {
