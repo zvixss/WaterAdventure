@@ -7,6 +7,7 @@ public class Glaciar extends Entidad {
 
     public Glaciar(Texture textura, float x, float y) {
         super(textura, x, y, 20, 28, 0.3f);
+        this.setEstrategiaMovimiento(new MovimientoVerticalDescendente(300));
     }
 
     @Override

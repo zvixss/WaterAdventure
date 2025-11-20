@@ -24,48 +24,42 @@ public class Obstaculos {
     final private Texture texMedusa;
     final private Texture texConcha;
     final private Texture texBotella;
-    private Lancha lancha;
+
+    private FabricaElementos fabrica;
 
     public Obstaculos(Sound coinSound, Music instrumentalMusic, Lancha lancha) {
         this.coinSound = coinSound;
         this.instrumentalMusic = instrumentalMusic;
-        this.lancha = lancha;
 
         this.texBoya = new Texture(Gdx.files.internal("boya.png"));
         this.texGlaciar = new Texture(Gdx.files.internal("glaciar.png"));
         this.texMedusa = new Texture(Gdx.files.internal("medusa.png"));
         this.texConcha = new Texture(Gdx.files.internal("concha.png"));
         this.texBotella = new Texture(Gdx.files.internal("botella.png"));
+
+        this.fabrica = new FabricaNivelBasico(texBoya, texGlaciar, texMedusa, texBotella, texConcha, lancha);
     }
 
     public void crear() {
         entidades = new Array<>();
-        crearObstaculo();
+        crearObstaculoLogica();
 
         instrumentalMusic.setLooping(true);
         instrumentalMusic.play();
     }
 
-    private void crearObstaculo() {
+    private void crearObstaculoLogica() {
         float x = MathUtils.random(0, 800 - 64);
         float y = 480;
+
         int tipo = MathUtils.random(1, 10) < 5 ? 1 : 2;
 
         if (tipo == 1) {
-            int subtipo = MathUtils.random(0, 2);
-            if (subtipo == 0) {
-                entidades.add(new Boya(texBoya, x, y));
-            } else if (subtipo == 1) {
-                entidades.add(new Glaciar(texGlaciar, x, y));
-            } else {
-                entidades.add(new Medusa(texMedusa, x, y, lancha));
-            }
+            Entidad obstaculo = fabrica.crearObstaculo(x, y);
+            entidades.add(obstaculo);
         } else {
-            if (MathUtils.random(1, 10) == 1) {
-                entidades.add(new Botella(texBotella, x, y));
-            } else {
-                entidades.add(new Concha(texConcha, x, y));
-            }
+            Entidad recolectable = fabrica.crearRecolectable(x, y);
+            entidades.add(recolectable);
         }
 
         lastSpawnTime = TimeUtils.nanoTime();
@@ -73,7 +67,7 @@ public class Obstaculos {
 
     public boolean actualizarMovimiento(Lancha lancha) {
         if (TimeUtils.nanoTime() - lastSpawnTime > 100000000) {
-            crearObstaculo();
+            crearObstaculoLogica();
         }
 
         for (Iterator<Entidad> iter = entidades.iterator(); iter.hasNext(); ) {
@@ -89,7 +83,6 @@ public class Obstaculos {
                 if (entidad instanceof IRecolectable) {
                     IRecolectable recolectable = (IRecolectable) entidad;
                     lancha.sumarPuntos(recolectable.getPuntos());
-
                     coinSound.play();
                 } else {
                     lancha.dañar();

@@ -7,6 +7,7 @@ public class Botella extends Entidad implements IRecolectable {
 
     public Botella(Texture textura, float x, float y) {
         super(textura, x, y, 32, 32, 0.15f);
+        this.setEstrategiaMovimiento(new MovimientoVerticalDescendente(300));
     }
 
     @Override

@@ -7,6 +7,7 @@ public class Boya extends Entidad {
 
     public Boya(Texture textura, float x, float y) {
         super(textura, x, y, textura.getWidth() * 0.1f, textura.getHeight() * 0.1f, 0.1f);
+        this.setEstrategiaMovimiento(new MovimientoVerticalDescendente(300));
     }
 
     @Override
