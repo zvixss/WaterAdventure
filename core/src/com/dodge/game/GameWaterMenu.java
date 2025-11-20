@@ -11,7 +11,7 @@ public class GameWaterMenu extends Game {
 
 	public void create() {
 		batch = new SpriteBatch();
-        font = new BitmapFont(); // Use libGDX's default Arial font
+        font = new BitmapFont();
 		this.setScreen(new TutorialScreen(this));
 	}
 

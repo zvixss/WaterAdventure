@@ -19,7 +19,6 @@ public class GameScreen implements Screen {
     final private Obstaculos obstaculos;
     final private Texture fondo;
 
-
     public GameScreen(final GameWaterMenu game) {
         this.game = game;
         this.batch = game.getBatch();
@@ -69,7 +68,7 @@ public class GameScreen implements Screen {
         }
 
         lancha.dibujar(batch);
-        obstaculos.actualizarDibujoObjeto(batch); // Llama al método de dibujo refactorizado
+        obstaculos.actualizarDibujoObjeto(batch);
 
         batch.end();
     }
